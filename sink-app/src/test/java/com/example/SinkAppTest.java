@@ -28,6 +28,6 @@ public class SinkAppTest {
         final Message<String> message = new GenericMessage<>("{\"name\":\"hoge\"}");
         sink.input().send(message);
 
-        outputCapture.expect(containsString("Received: hoge"));
+        outputCapture.expect(containsString("MQ -> Sink: hoge"));
     }
 }
