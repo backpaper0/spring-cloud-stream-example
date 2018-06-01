@@ -2,6 +2,8 @@ package com.example;
 
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.annotation.EnableBinding;
@@ -17,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class SourceApp {
 
+    private static Logger logger = LoggerFactory.getLogger(SourceApp.class);
+
     private final Source source;
 
     public static void main(final String[] args) {
@@ -30,6 +34,9 @@ public class SourceApp {
     @PostMapping
     public void handle(@RequestParam final String name) {
         final Person person = new Person(name);
+        if (logger.isInfoEnabled()) {
+            logger.info("Source -> MQ: {}", person);
+        }
         final Message<?> message = MessageBuilder.withPayload(person).build();
         source.output().send(message);
     }
