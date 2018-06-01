@@ -93,15 +93,15 @@ rabbitmqctl set_policy ha-two "^sample" '{"ha-mode":"exactly","ha-params":2,"ha-
 メッセージ送信アプリケーションを複数起動する。
 
 ```sh
-java -jar target/source-app.jar --server.port=8080 --spring.rabbitmq.addresses=localhost:5672,localhost:5673
-java -jar target/source-app.jar --server.port=8081 --spring.rabbitmq.addresses=localhost:5672,localhost:5673
+java -jar target/source-app.jar --spring.rabbitmq.addresses=localhost:5672,localhost:5673
+java -jar target/source-app.jar --spring.rabbitmq.addresses=localhost:5672,localhost:5673 --server.port=8081
 ```
 
 メッセージ受信アプリケーションを複数起動する。
 
 ```sh
-java -jar target/sink-app.jar --server.port=8082 --spring.rabbitmq.addresses=localhost:5672,localhost:5673
-java -jar target/sink-app.jar --server.port=8083 --spring.rabbitmq.addresses=localhost:5672,localhost:5673
+java -jar target/sink-app.jar --spring.rabbitmq.addresses=localhost:5672,localhost:5673
+java -jar target/sink-app.jar --spring.rabbitmq.addresses=localhost:5672,localhost:5673
 ```
 
 `source-app`へHTTPで`name`を送る。
