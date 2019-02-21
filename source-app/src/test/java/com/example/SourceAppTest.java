@@ -1,14 +1,13 @@
 package com.example;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
@@ -18,11 +17,11 @@ import org.springframework.cloud.stream.test.binder.MessageCollector;
 import org.springframework.http.MediaType;
 import org.springframework.http.RequestEntity;
 import org.springframework.messaging.Message;
-import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
-@RunWith(SpringRunner.class)
+@SpringJUnitConfig
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
-public class SourceAppTest {
+class SourceAppTest {
 
     @Autowired
     private TestRestTemplate testRestTemplate;
@@ -32,7 +31,7 @@ public class SourceAppTest {
     private Source source;
 
     @Test
-    public void testHandle() throws Exception {
+    void testHandle() throws Exception {
         final Map<String, String> json = new HashMap<>();
         json.put("name", "hoge");
         final RequestEntity<Map<String, String>> request = RequestEntity.post(URI.create("/"))
