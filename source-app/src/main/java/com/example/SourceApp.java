@@ -11,8 +11,10 @@ import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.integration.support.MessageBuilder;
 import org.springframework.messaging.Message;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SpringBootApplication
 @EnableBinding(Source.class)
@@ -32,8 +34,7 @@ public class SourceApp {
     }
 
     @PostMapping
-    public void handle(@RequestParam final String name) {
-        final Person person = new Person(name);
+    public void handle(@RequestBody final Person person) {
         if (logger.isInfoEnabled()) {
             logger.info("Source -> MQ: {}", person);
         }
@@ -45,7 +46,7 @@ public class SourceApp {
 
         private final String name;
 
-        public Person(String name) {
+        public Person(@JsonProperty("name") final String name) {
             this.name = Objects.requireNonNull(name);
         }
 

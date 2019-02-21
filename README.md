@@ -39,7 +39,7 @@ java -jar target/sink-app.jar
 `source-app`へHTTPで`name`を送る。
 
 ```sh
-curl localhost:8080 -d name=hoge
+curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
 ```
 
 そうすると、`SourceApp#handle`がHTTPリクエストを受け取って`sample` exchangeへメッセージを送信する。
@@ -108,6 +108,6 @@ java -jar target/sink-app.jar --spring.rabbitmq.addresses=localhost:5672,localho
 
 ```sh
 # 本来は前にロードバランサーを置く
-curl localhost:8080 -d name=hoge
-curl localhost:8081 -d name=hoge
+curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
+curl localhost:8081 -H "Content-Type: application/json" -d '{"name":"hoge"}'
 ```

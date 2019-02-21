@@ -2,6 +2,9 @@ package com.example;
 
 import static org.junit.Assert.*;
 
+import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.BlockingQueue;
 
 import org.junit.Test;
@@ -12,10 +15,10 @@ import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.cloud.stream.messaging.Source;
 import org.springframework.cloud.stream.test.binder.MessageCollector;
+import org.springframework.http.MediaType;
+import org.springframework.http.RequestEntity;
 import org.springframework.messaging.Message;
 import org.springframework.test.context.junit4.SpringRunner;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
@@ -30,9 +33,12 @@ public class SourceAppTest {
 
     @Test
     public void testHandle() throws Exception {
-        final MultiValueMap<String, String> request = new LinkedMultiValueMap<>();
-        request.add("name", "hoge");
-        testRestTemplate.postForEntity("/", request, Void.TYPE);
+        final Map<String, String> json = new HashMap<>();
+        json.put("name", "hoge");
+        final RequestEntity<Map<String, String>> request = RequestEntity.post(URI.create("/"))
+                .contentType(MediaType.APPLICATION_JSON)
+                .body(json);
+        testRestTemplate.exchange(request, Void.class);
 
         final BlockingQueue<Message<?>> queue = messageCollector.forChannel(source.output());
         assertEquals(1, queue.size());
