@@ -1,5 +1,12 @@
 # Spring Cloud Stream
 
+## 遊ぶために必要なもの
+
+- Java 11
+- Maven 3
+- Docker
+- curl
+
 ## RabbitMQを起動する(via Docker)
 
 管理画面を見たいので`-management`が付いているバージョンを使用する。
@@ -14,14 +21,18 @@ docker run -d --name mq -h usaq -p 5672:5672 -p 15672:15672 rabbitmq:3-managemen
 
 ユーザー名・パスワードはデフォルトだとどちらも`guest`。
 
+## アプリケーションをビルドする
+
+```sh
+mvn package
+```
+
 ## メッセージ送信側アプリケーションを起動する
 
 HTTPで受け取った名前を`Person`にセットしてキューへ送信するアプリケーション。
 
 ```sh
-cd source-app
-mvnw package
-java -jar target/source-app.jar
+java -jar source-app/target/source-app.jar
 ```
 
 ## メッセージ受信側アプリケーションを起動する
@@ -29,9 +40,7 @@ java -jar target/source-app.jar
 キューから受信した`Person`を標準出力へ書き出すアプリケーション。
 
 ```sh
-cd sink-app
-mvnw package
-java -jar target/sink-app.jar
+java -jar sink-app/target/sink-app.jar
 ```
 
 ## メッセージを送信する
