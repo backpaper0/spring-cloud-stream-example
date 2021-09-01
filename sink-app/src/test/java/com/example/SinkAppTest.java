@@ -1,33 +1,32 @@
 package com.example;
 
-import static org.hamcrest.CoreMatchers.*;
+import static org.assertj.core.api.Assertions.*;
 
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.runner.RunWith;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.rule.OutputCapture;
-import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.boot.test.system.CapturedOutput;
+import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.cloud.stream.binder.test.InputDestination;
+import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
+import org.springframework.context.annotation.Import;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.GenericMessage;
-import org.springframework.test.context.junit4.SpringRunner;
 
-@RunWith(SpringRunner.class)
 @SpringBootTest
+@Import(TestChannelBinderConfiguration.class)
+@ExtendWith(OutputCaptureExtension.class)
 public class SinkAppTest {
 
-    @Autowired
-    private Sink sink;
+	@Autowired
+	private InputDestination input;
 
-    @Rule
-    public OutputCapture outputCapture = new OutputCapture();
+	@Test
+	public void testHandle(CapturedOutput output) {
+		final Message<String> message = new GenericMessage<>("{\"name\":\"hoge\"}");
+		input.send(message);
 
-    @Test
-    public void testHandle() {
-        final Message<String> message = new GenericMessage<>("{\"name\":\"hoge\"}");
-        sink.input().send(message);
-
-        outputCapture.expect(containsString("MQ -> Sink: hoge"));
-    }
+		assertThat(output.getOut()).contains("MQ -> Sink: hoge");
+	}
 }

@@ -77,16 +77,22 @@ exchangeへ送信されたメッセージはバインドされているキュー
 
 RabbitMQクラスタを構築する。
 
-まず1つめのRabbitMQを起動する。
+まずネットワークを作る。
 
 ```sh
-docker run -d -h usaq1 --name mq1 -e RABBITMQ_ERLANG_COOKIE=secret -p 15672:15672 rabbitmq:3-management
+docker network create cloud-stream
+```
+
+1つめのRabbitMQを起動する。
+
+```sh
+docker run -d --network cloud-stream -h usaq1 --name mq1 -e RABBITMQ_ERLANG_COOKIE=secret -p 15672:15672 rabbitmq:3-management
 ```
 
 次に2つめのRabbitMQを起動して`docker exec`で`bash`を起動する。
 
 ```sh
-docker run -d -h usaq2 --name mq2 -e RABBITMQ_ERLANG_COOKIE=secret --link mq1 rabbitmq:3-management
+docker run -d --network cloud-stream -h usaq2 --name mq2 -e RABBITMQ_ERLANG_COOKIE=secret rabbitmq:3-management
 docker exec -it mq2 bash
 ```
 
@@ -103,21 +109,21 @@ exit
 メッセージ受信アプリケーションを複数起動する。
 
 ```sh
-docker run -d --name sink-app1 --link mq1 --link mq2 -v `pwd`/sink-app/target/sink-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
-docker run -d --name sink-app2 --link mq1 --link mq2 -v `pwd`/sink-app/target/sink-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
+docker run -d --name sink-app1 --network cloud-stream -v $(PWD)/sink-app/target/sink-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
+docker run -d --name sink-app2 --network cloud-stream -v $(PWD)/sink-app/target/sink-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
 ```
 
 メッセージ送信アプリケーションを複数起動する。
 
 ```sh
-docker run -d --name source-app1 --link mq1 --link mq2 -v `pwd`/source-app/target/source-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
-docker run -d --name source-app2 --link mq1 --link mq2 -v `pwd`/source-app/target/source-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
+docker run -d --name source-app1 --network cloud-stream -v $(PWD)/source-app/target/source-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
+docker run -d --name source-app2 --network cloud-stream -v $(PWD)/source-app/target/source-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
 ```
 
 ロードバランサーを起動する。
 
 ```sh
-docker run -d --name lb --link source-app1 --link source-app2 -v `pwd`/lb/default.conf:/etc/nginx/conf.d/default.conf -p 8080:80 nginx
+docker run -d --name lb --network cloud-stream -v $(PWD)/lb/default.conf:/etc/nginx/conf.d/default.conf -p 8080:80 nginx
 ```
 
 ロードバランサーを経由して`source-app`へHTTPで`name`を送る。
@@ -131,7 +137,7 @@ curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
 連続でリクエスト投げる。
 
 ```sh
-for i in `seq 10000`; do curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge-'$i'"}'; sleep 1; done
+for i in {1..10000}; do curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge-'$i'"}'; sleep 1; done
 ```
 
 色々止める

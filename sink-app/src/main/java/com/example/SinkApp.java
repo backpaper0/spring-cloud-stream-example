@@ -1,49 +1,49 @@
 package com.example;
 
 import java.util.Objects;
+import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.stream.annotation.EnableBinding;
-import org.springframework.cloud.stream.annotation.StreamListener;
-import org.springframework.cloud.stream.messaging.Sink;
+import org.springframework.context.annotation.Bean;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SpringBootApplication
-@EnableBinding(Sink.class)
 public class SinkApp {
 
-    private static Logger logger = LoggerFactory.getLogger(SinkApp.class);
+	private static Logger logger = LoggerFactory.getLogger(SinkApp.class);
 
-    public static void main(final String[] args) {
-        SpringApplication.run(SinkApp.class, args);
-    }
+	public static void main(final String[] args) {
+		SpringApplication.run(SinkApp.class, args);
+	}
 
-    @StreamListener(Sink.INPUT)
-    public void handle(final Person person) {
-        if (logger.isInfoEnabled()) {
-            logger.info("MQ -> Sink: {}", person);
-        }
-    }
+	@Bean
+	public Consumer<Person> person() {
+		return person -> {
+			if (logger.isInfoEnabled()) {
+				logger.info("MQ -> Sink: {}", person);
+			}
+		};
+	}
 
-    public static class Person {
+	public static class Person {
 
-        private final String name;
+		private final String name;
 
-        public Person(@JsonProperty("name") String name) {
-            this.name = Objects.requireNonNull(name);
-        }
+		public Person(@JsonProperty("name") String name) {
+			this.name = Objects.requireNonNull(name);
+		}
 
-        public String getName() {
-            return name;
-        }
+		public String getName() {
+			return name;
+		}
 
-        @Override
-        public String toString() {
-            return name;
-        }
-    }
+		@Override
+		public String toString() {
+			return name;
+		}
+	}
 }
