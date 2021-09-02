@@ -1,0 +1,52 @@
+version: "3.8"
+
+services:
+
+  mq1:
+    image: rabbitmq:3-management
+    hostname: usaq1
+    environment:
+      RABBITMQ_ERLANG_COOKIE: secret
+    volumes:
+      - ./mq/rabbitmq.conf:/etc/rabbitmq/conf.d/rabbitmq.conf
+    ports: ["15672:15672"]
+
+  mq2:
+    image: rabbitmq:3-management
+    hostname: usaq2
+    environment:
+      RABBITMQ_ERLANG_COOKIE: secret
+    volumes:
+      - ./mq/rabbitmq.conf:/etc/rabbitmq/conf.d/rabbitmq.conf
+
+  sink-app1:
+    image: sink-app:0.0.1-SNAPSHOT
+    environment:
+      SPRING_RABBITMQ_ADDRESSES: "mq1:5672,mq2:5672"
+    depends_on: [mq1, mq2]
+
+  sink-app2:
+    image: sink-app:0.0.1-SNAPSHOT
+    environment:
+      SPRING_RABBITMQ_ADDRESSES: "mq1:5672,mq2:5672"
+    depends_on: [mq1, mq2]
+
+  source-app1:
+    image: source-app:0.0.1-SNAPSHOT
+    environment:
+      SPRING_RABBITMQ_ADDRESSES: "mq1:5672,mq2:5672"
+    depends_on: [mq1, mq2]
+
+  source-app2:
+    image: source-app:0.0.1-SNAPSHOT
+    environment:
+      SPRING_RABBITMQ_ADDRESSES: "mq1:5672,mq2:5672"
+    depends_on: [mq1, mq2]
+
+  lb:
+    image: nginx
+    ports: ["8080:80"]
+    volumes:
+      - ./lb/default.conf:/etc/nginx/conf.d/default.conf
+    depends_on: [source-app1, source-app2]
+
