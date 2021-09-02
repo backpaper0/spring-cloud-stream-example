@@ -77,56 +77,23 @@ exchangeへ送信されたメッセージはバインドされているキュー
 
 RabbitMQクラスタを構築する。
 
-まずネットワークを作る。
+まずアプリケーションのコンテナイメージをビルドする。
 
 ```sh
-docker network create cloud-stream
+mvn -f source-app/pom.xml spring-boot:build-image
+mvn -f sink-app/pom.xml spring-boot:build-image
 ```
 
-1つめのRabbitMQを起動する。
+次にDocker ComposeでRabbitMQ、アプリケーション、ロードバランサー(Nginx)を起動する。
 
 ```sh
-docker run -d --network cloud-stream -h usaq1 --name mq1 -e RABBITMQ_ERLANG_COOKIE=secret -p 15672:15672 rabbitmq:3-management
+docker compose up -d
 ```
 
-次に2つめのRabbitMQを起動して`docker exec`で`bash`を起動する。
+サービスの起動には少し時間がかかる。
 
-```sh
-docker run -d --network cloud-stream -h usaq2 --name mq2 -e RABBITMQ_ERLANG_COOKIE=secret rabbitmq:3-management
-docker exec -it mq2 bash
-```
 
-`rabbitmqctl`コマンドを使用してクラスタを構築する。
-
-```sh
-rabbitmqctl stop_app
-rabbitmqctl join_cluster rabbit@usaq1
-rabbitmqctl start_app
-rabbitmqctl set_policy ha-two "^sample" '{"ha-mode":"exactly","ha-params":2,"ha-sync-mode":"automatic"}'
-exit
-```
-
-メッセージ受信アプリケーションを複数起動する。
-
-```sh
-docker run -d --name sink-app1 --network cloud-stream -v $(PWD)/sink-app/target/sink-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
-docker run -d --name sink-app2 --network cloud-stream -v $(PWD)/sink-app/target/sink-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
-```
-
-メッセージ送信アプリケーションを複数起動する。
-
-```sh
-docker run -d --name source-app1 --network cloud-stream -v $(PWD)/source-app/target/source-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
-docker run -d --name source-app2 --network cloud-stream -v $(PWD)/source-app/target/source-app.jar:/app.jar openjdk:11 java -jar /app.jar --spring.rabbitmq.addresses=mq1:5672,mq2:5672
-```
-
-ロードバランサーを起動する。
-
-```sh
-docker run -d --name lb --network cloud-stream -v $(PWD)/lb/default.conf:/etc/nginx/conf.d/default.conf -p 8080:80 nginx
-```
-
-ロードバランサーを経由して`source-app`へHTTPで`name`を送る。
+サービスが起動したらロードバランサーを経由して`source-app`へHTTPで`name`を送る。
 
 ```sh
 curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
@@ -143,8 +110,8 @@ for i in {1..10000}; do curl localhost:8080 -H "Content-Type: application/json" 
 色々止める
 
 ```sh
-docker stop source-app1
-docker stop sink-app1
-docker stop mq1
+docker compose stop source-app1
+docker compose stop sink-app1
+docker compose stop mq1
 ```
 
