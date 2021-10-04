@@ -10,6 +10,8 @@ x-mq: &mq
 x-app-base: &app-base
   environment:
     SPRING_RABBITMQ_ADDRESSES: "mq1:5672,mq2:5672"
+    SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
+    MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
   depends_on: [mq1, mq2]
 
 services:
@@ -17,7 +19,6 @@ services:
   mq1:
     <<: *mq
     hostname: usaq1
-    ports: ["15672:15672"]
 
   mq2:
     <<: *mq
@@ -39,8 +40,11 @@ services:
 
   lb:
     image: nginx
-    ports: ["8080:80"]
+    ports: ["8080:8080", "15672:15672"]
     volumes:
       - ./lb/default.conf:/etc/nginx/conf.d/default.conf
     depends_on: [source-app1, source-app2]
 
+  zipkin:
+    image: openzipkin/zipkin
+    ports: ["9411:9411"]

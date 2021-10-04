@@ -3,7 +3,6 @@
 ## 遊ぶために必要なもの
 
 - Java 11
-- Maven 3
 - Docker
 - curl
 
@@ -12,7 +11,7 @@
 管理画面を見たいので`-management`が付いているバージョンを使用する。
 
 ```sh
-docker run -d --name mq -h usaq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
+docker run -d --name mq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 ```
 
 次のURLで管理画面を開く。
@@ -21,18 +20,13 @@ docker run -d --name mq -h usaq -p 5672:5672 -p 15672:15672 rabbitmq:3-managemen
 
 ユーザー名・パスワードはデフォルトだとどちらも`guest`。
 
-## アプリケーションをビルドする
-
-```sh
-mvn package
-```
-
 ## メッセージ送信側アプリケーションを起動する
 
 HTTPで受け取った名前を`Person`にセットしてキューへ送信するアプリケーション。
 
 ```sh
-java -jar source-app/target/source-app.jar
+cd source-app
+./mvnw spring-boot:run
 ```
 
 ## メッセージ受信側アプリケーションを起動する
@@ -40,7 +34,8 @@ java -jar source-app/target/source-app.jar
 キューから受信した`Person`を標準出力へ書き出すアプリケーション。
 
 ```sh
-java -jar sink-app/target/sink-app.jar
+cd sink-app
+./mvnw spring-boot:run
 ```
 
 ## メッセージを送信する
@@ -51,43 +46,33 @@ java -jar sink-app/target/sink-app.jar
 curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
 ```
 
-そうすると、`SourceApp#handle`がHTTPリクエストを受け取って`sample` exchangeへメッセージを送信する。
+そうすると、`SourceApp#handle`がHTTPリクエストを受け取って`person`という名前のExchangeへメッセージを送信する。
 
-ここで送信先となるexchangeは`application.properties`に書かれた`spring.cloud.stream.bindings.output.destination`の値で設定される。
-デフォルトだとbinding target name、つまり今回だと`output`になる。
+ここで送信先となるExchangeは`StreamBridge#send`の第1引数によって指定される。
 
-exchangeへ送信されたメッセージはバインドされているキューへ送信される。
+Exchangeへ送信されたメッセージはバインドされているキューへ送信される。
 
 キューはデフォルトだと`sink-app`のインスタンス毎に1つ用意されるが、グループが設定されている場合はグループ毎に1つ用意される。
-グループは`application.properties`の`spring.cloud.stream.bindings.input.group`の値で設定される。
-
-キューがどのexchangeへバインドされるかは`application.properties`に書かれた`spring.cloud.stream.bindings.input.destination`の値で設定される。
-デフォルトだとbinding target name、つまり今回だと`input`になる。
+グループは`spring.cloud.stream.bindings.<bindingName>.group`の値で設定される。
 
 `SinkApp#handle`に受信したメッセージが渡され、標準出力に書き出される。
 
-### 参考
-
-- binding target name: `org.springframework.cloud.stream.annotation.Output.value()`
-- binding target name: `org.springframework.cloud.stream.annotation.Input.value()`
-- `org.springframework.cloud.stream.config.BindingServiceProperties`
-- `org.springframework.cloud.stream.config.BindingProperties`
-
 ## 冗長化
 
-RabbitMQクラスタを構築する。
+RabbitMQクラスタを構築してSpring Cloud Streamを試してみる。
+
+必要なコマンドは`Makefile`にまとめている。
 
 まずアプリケーションのコンテナイメージをビルドする。
 
 ```sh
-mvn -f source-app/pom.xml spring-boot:build-image
-mvn -f sink-app/pom.xml spring-boot:build-image
+make build
 ```
 
 次にDocker ComposeでRabbitMQ、アプリケーション、ロードバランサー(Nginx)を起動する。
 
 ```sh
-docker compose up -d
+make up
 ```
 
 サービスの起動には少し時間がかかる。
@@ -96,7 +81,7 @@ docker compose up -d
 サービスが起動したらロードバランサーを経由して`source-app`へHTTPで`name`を送る。
 
 ```sh
-curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
+make demo1
 ```
 
 ### 連続でリクエストを投げながら色々止めたりしながら遊ぼう
@@ -104,14 +89,19 @@ curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
 連続でリクエスト投げる。
 
 ```sh
-for i in {1..10000}; do curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge-'$i'"}'; sleep 1; done
+make demo2
 ```
 
-色々止める
+### 後始末
 
-```sh
-docker compose stop source-app1
-docker compose stop sink-app1
-docker compose stop mq1
+Docker Composeを落とす。
+
+```
+make down
 ```
 
+コンテナイメージを破棄する。
+
+```
+make destroy
+```
