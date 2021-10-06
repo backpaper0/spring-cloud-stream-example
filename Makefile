@@ -17,6 +17,14 @@ build:
 		popd; \
 	done
 
+.PHONY: test
+test:
+	@for pj in $$(ls | grep app); do \
+		pushd $$pj; \
+		./mvnw -B verify; \
+		popd; \
+	done
+
 .PHONY: up
 up:
 	docker compose up -d
