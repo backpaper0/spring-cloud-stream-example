@@ -52,7 +52,7 @@ demo1:
 .PHONY: demo2
 demo2:
 	@for i in {1..10000}; do \
-		curl -s localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge-'$$i'"}'; \
+		curl -s localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge-'$$(printf "%05d" "$$i")'"}'; \
 		sleep 1; \
 	done
 
