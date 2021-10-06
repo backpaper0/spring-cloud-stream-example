@@ -57,6 +57,19 @@ Exchangeへ送信されたメッセージはバインドされているキュー
 
 `SinkApp#handle`に受信したメッセージが渡され、標準出力に書き出される。
 
+## エラーハンドリング
+
+DLQ(Dead Letter Queue)という仕組みを使ってエラーが発生したメッセージを専用のキューにエンキューできる。
+
+次の`curl`コマンドで不正なメッセージを送信してみる。
+
+```sh
+curl localhost:8080 -H "Content-Type: text/plain" -d 'Invalid message'
+```
+
+するとsink-app側で例外がスローされてメッセージは`person.myGroup.dlq`というキューにエンキューされる。
+RabbitMQの管理画面で該当のキューを選択してGet Messageをしてみるとそれが確認できる。
+
 ## 冗長化
 
 RabbitMQクラスタを構築してSpring Cloud Streamを試してみる。

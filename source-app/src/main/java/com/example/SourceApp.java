@@ -7,6 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.stream.function.StreamBridge;
+import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -29,12 +30,20 @@ public class SourceApp {
 		this.streamBridge = streamBridge;
 	}
 
-	@PostMapping
+	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
 	public void handle(@RequestBody final Person person) {
 		if (logger.isInfoEnabled()) {
 			logger.info("Source -> MQ: {}", person);
 		}
 		streamBridge.send("person", person);
+	}
+
+	@PostMapping(consumes = MediaType.TEXT_PLAIN_VALUE)
+	public void handle(@RequestBody String text) {
+		if (logger.isInfoEnabled()) {
+			logger.info("Source -> MQ: {}", text);
+		}
+		streamBridge.send("person", text);
 	}
 
 	public static class Person {

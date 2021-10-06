@@ -5,9 +5,11 @@ import java.util.function.Consumer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
+import org.springframework.integration.handler.LoggingHandler;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
@@ -45,5 +47,11 @@ public class SinkApp {
 		public String toString() {
 			return name;
 		}
+	}
+
+	@Autowired
+	public void configureLoggingHandler(LoggingHandler handler) {
+		logger.info("Set {} log level to {}", handler, LoggingHandler.Level.WARN);
+		handler.setLevel(LoggingHandler.Level.WARN);
 	}
 }
