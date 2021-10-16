@@ -11,14 +11,15 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.handler.LoggingHandler;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 @SpringBootApplication
 public class SinkApp {
 
 	private static Logger logger = LoggerFactory.getLogger(SinkApp.class);
 
-	public static void main(final String[] args) {
+	@SuppressWarnings("resource")
+	public static void main(String[] args) {
 		SpringApplication.run(SinkApp.class, args);
 	}
 
@@ -35,7 +36,8 @@ public class SinkApp {
 
 		private final String name;
 
-		public Person(@JsonProperty("name") String name) {
+		@JsonCreator
+		public Person(String name) {
 			this.name = Objects.requireNonNull(name);
 		}
 

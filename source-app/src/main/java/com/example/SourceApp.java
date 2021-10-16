@@ -12,13 +12,14 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonCreator;
 
 @SpringBootApplication
 @RestController
 public class SourceApp {
 
-	public static void main(final String[] args) {
+	@SuppressWarnings("resource")
+	public static void main(String[] args) {
 		SpringApplication.run(SourceApp.class, args);
 	}
 
@@ -31,7 +32,7 @@ public class SourceApp {
 	}
 
 	@PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-	public void handle(@RequestBody final Person person) {
+	public void handle(@RequestBody Person person) {
 		if (logger.isInfoEnabled()) {
 			logger.info("Source -> MQ: {}", person);
 		}
@@ -50,7 +51,8 @@ public class SourceApp {
 
 		private final String name;
 
-		public Person(@JsonProperty("name") final String name) {
+		@JsonCreator
+		public Person(String name) {
 			this.name = Objects.requireNonNull(name);
 		}
 
