@@ -11,7 +11,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.integration.handler.LoggingHandler;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SpringBootApplication
 public class SinkApp {
@@ -36,8 +36,7 @@ public class SinkApp {
 
 		private final String name;
 
-		@JsonCreator
-		public Person(String name) {
+		public Person(@JsonProperty("name") String name) {
 			this.name = Objects.requireNonNull(name);
 		}
 

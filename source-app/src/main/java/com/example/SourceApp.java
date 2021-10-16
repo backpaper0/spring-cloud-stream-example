@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 @SpringBootApplication
 @RestController
@@ -51,8 +51,7 @@ public class SourceApp {
 
 		private final String name;
 
-		@JsonCreator
-		public Person(String name) {
+		public Person(@JsonProperty("name") String name) {
 			this.name = Objects.requireNonNull(name);
 		}
 
