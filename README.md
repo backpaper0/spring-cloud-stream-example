@@ -25,7 +25,7 @@ docker run -d --name mq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 HTTPで受け取った名前を`Person`にセットしてキューへ送信するアプリケーション。
 
 ```sh
-cd source-app
+cd source-service
 ./mvnw spring-boot:run
 ```
 
@@ -34,13 +34,13 @@ cd source-app
 キューから受信した`Person`を標準出力へ書き出すアプリケーション。
 
 ```sh
-cd sink-app
+cd sink-service
 ./mvnw spring-boot:run
 ```
 
 ## メッセージを送信する
 
-`source-app`へHTTPで`name`を送る。
+`source-service`へHTTPで`name`を送る。
 
 ```sh
 curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
@@ -52,7 +52,7 @@ curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
 
 Exchangeへ送信されたメッセージはバインドされているキューへ送信される。
 
-キューはデフォルトだと`sink-app`のインスタンス毎に1つ用意されるが、グループが設定されている場合はグループ毎に1つ用意される。
+キューはデフォルトだと`sink-service`のインスタンス毎に1つ用意されるが、グループが設定されている場合はグループ毎に1つ用意される。
 グループは`spring.cloud.stream.bindings.<bindingName>.group`の値で設定される。
 
 `SinkApp#handle`に受信したメッセージが渡され、標準出力に書き出される。
@@ -67,7 +67,7 @@ DLQ(Dead Letter Queue)という仕組みを使ってエラーが発生したメ�
 curl localhost:8080 -H "Content-Type: text/plain" -d 'Invalid message'
 ```
 
-するとsink-app側で例外がスローされてメッセージは`person.myGroup.dlq`というキューにエンキューされる。
+するとsink-service側で例外がスローされてメッセージは`person.myGroup.dlq`というキューにエンキューされる。
 RabbitMQの管理画面で該当のキューを選択してGet Messageをしてみるとそれが確認できる。
 
 ## 冗長化
@@ -91,7 +91,7 @@ make up
 サービスの起動には少し時間がかかる。
 
 
-サービスが起動したらロードバランサーを経由して`source-app`へHTTPで`name`を送る。
+サービスが起動したらロードバランサーを経由して`source-service`へHTTPで`name`を送る。
 
 ```sh
 make demo1

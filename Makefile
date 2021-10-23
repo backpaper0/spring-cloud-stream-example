@@ -31,7 +31,7 @@ up:
 
 .PHONY: logs
 logs:
-	docker compose logs -f source-app1 source-app2 sink-app1 sink-app2
+	docker compose logs -f source-service1 source-service2 sink-service1 sink-service2
 
 .PHONY: logs-all
 logs-all:
