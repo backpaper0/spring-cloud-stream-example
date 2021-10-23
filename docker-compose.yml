@@ -24,26 +24,26 @@ services:
     <<: *mq
     hostname: usaq2
 
-  sink-service1: &sink-service
-    image: sink-service:0.0.1-SNAPSHOT
+  consumer-service1: &consumer-service
+    image: consumer-service:0.0.1-SNAPSHOT
     <<: *app-base
 
-  sink-service2:
-    <<: *sink-service
+  consumer-service2:
+    <<: *consumer-service
 
-  source-service1: &source-service
-    image: source-service:0.0.1-SNAPSHOT
+  supplier-service1: &supplier-service
+    image: supplier-service:0.0.1-SNAPSHOT
     <<: *app-base
 
-  source-service2:
-    <<: *source-service
+  supplier-service2:
+    <<: *supplier-service
 
   lb:
     image: nginx
     ports: ["8080:8080", "15672:15672"]
     volumes:
       - ./lb/default.conf:/etc/nginx/conf.d/default.conf
-    depends_on: [source-service1, source-service2]
+    depends_on: [supplier-service1, supplier-service2]
 
   zipkin:
     image: openzipkin/zipkin
