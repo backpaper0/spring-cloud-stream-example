@@ -17,7 +17,7 @@ import org.springframework.messaging.support.GenericMessage;
 @SpringBootTest
 @Import(TestChannelBinderConfiguration.class)
 @ExtendWith(OutputCaptureExtension.class)
-public class SinkAppTest {
+public class AppTest {
 
 	@Autowired
 	private InputDestination input;

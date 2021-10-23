@@ -22,7 +22,7 @@ docker run -d --name mq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 
 ## メッセージ送信側アプリケーションを起動する
 
-HTTPで受け取った名前を`Person`にセットしてキューへ送信するアプリケーション。
+HTTPで受け取った名前を`Tweet`にセットしてキューへ送信するアプリケーション。
 
 ```sh
 cd supplier-service
@@ -31,7 +31,7 @@ cd supplier-service
 
 ## メッセージ受信側アプリケーションを起動する
 
-キューから受信した`Person`を標準出力へ書き出すアプリケーション。
+キューから受信した`Tweet`を標準出力へ書き出すアプリケーション。
 
 ```sh
 cd consumer-service
@@ -46,7 +46,7 @@ cd consumer-service
 curl localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
 ```
 
-そうすると、`SourceApp#handle`がHTTPリクエストを受け取って`person`という名前のExchangeへメッセージを送信する。
+そうすると、`SourceApp#handle`がHTTPリクエストを受け取って`tweet`という名前のExchangeへメッセージを送信する。
 
 ここで送信先となるExchangeは`StreamBridge#send`の第1引数によって指定される。
 
@@ -67,7 +67,7 @@ DLQ(Dead Letter Queue)という仕組みを使ってエラーが発生したメ�
 curl localhost:8080 -H "Content-Type: text/plain" -d 'Invalid message'
 ```
 
-するとconsumer-service側で例外がスローされてメッセージは`person.myGroup.dlq`というキューにエンキューされる。
+するとconsumer-service側で例外がスローされてメッセージは`tweet.myGroup.dlq`というキューにエンキューされる。
 RabbitMQの管理画面で該当のキューを選択してGet Messageをしてみるとそれが確認できる。
 
 ## 冗長化

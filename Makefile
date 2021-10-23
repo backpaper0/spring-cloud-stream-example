@@ -3,7 +3,7 @@ default: clean
 
 .PHONY: clean
 clean:
-	@for pj in $$(ls | grep app); do \
+	@for pj in $$(ls | grep service); do \
 		pushd $$pj; \
 		./mvnw -B clean; \
 		popd; \
@@ -11,7 +11,7 @@ clean:
 
 .PHONY: build
 build:
-	@for pj in $$(ls | grep app); do \
+	@for pj in $$(ls | grep service); do \
 		pushd $$pj; \
 		./mvnw -B -Ptracing,actuator -DskipTests spring-boot:build-image; \
 		popd; \
@@ -19,7 +19,7 @@ build:
 
 .PHONY: test
 test:
-	@for pj in $$(ls | grep app); do \
+	@for pj in $$(ls | grep service); do \
 		pushd $$pj; \
 		./mvnw -B verify; \
 		popd; \
@@ -47,12 +47,12 @@ destroy:
 
 .PHONY: demo1
 demo1:
-	curl -s localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge"}'
+	curl -s localhost:8080 -H "Content-Type: application/json" -d '{"content":"hoge"}'
 
 .PHONY: demo2
 demo2:
 	@for i in {1..10000}; do \
-		curl -s localhost:8080 -H "Content-Type: application/json" -d '{"name":"hoge-'$$(printf "%05d" "$$i")'"}'; \
+		curl -s localhost:8080 -H "Content-Type: application/json" -d '{"content":"hoge-'$$(printf "%05d" "$$i")'"}'; \
 		sleep 1; \
 	done
 

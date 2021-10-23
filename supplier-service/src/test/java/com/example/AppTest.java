@@ -20,7 +20,7 @@ import org.springframework.messaging.Message;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT)
 @Import(TestChannelBinderConfiguration.class)
-public class SourceAppTest {
+public class AppTest {
 
 	@Autowired
 	private TestRestTemplate testRestTemplate;
@@ -30,13 +30,13 @@ public class SourceAppTest {
 	@Test
 	void testHandle() throws Exception {
 		final Map<String, String> json = new HashMap<>();
-		json.put("name", "hoge");
+		json.put("content", "hoge");
 		final RequestEntity<Map<String, String>> request = RequestEntity.post(URI.create("/"))
 				.contentType(MediaType.APPLICATION_JSON)
 				.body(json);
 		testRestTemplate.exchange(request, Void.class);
 
 		Message<byte[]> message = output.receive();
-		assertEquals("{\"name\":\"hoge\"}", new String(message.getPayload()));
+		assertEquals("{\"content\":\"hoge\"}", new String(message.getPayload()));
 	}
 }
