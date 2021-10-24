@@ -90,27 +90,30 @@ RabbitMQの管理画面で該当のキューを選択してGet Messageをして�
 
 RabbitMQクラスタを構築してSpring Cloud Streamを試してみる。
 
-必要なコマンドは`Makefile`にまとめている。
-
 まずアプリケーションのコンテナイメージをビルドする。
 
 ```sh
-make build
+for pj in supplier-service consumer-service; do cd $pj && ./mvnw -Ptracing,actuator -DskipTests spring-boot:build-image && cd ..; done
 ```
 
 次にDocker ComposeでRabbitMQ、アプリケーション、ロードバランサー(Nginx)を起動する。
 
 ```sh
-make up
+docker compose up -d
 ```
 
 サービスの起動には少し時間がかかる。
 
-
-サービスが起動したらロードバランサーを経由して`supplier-service`へHTTPで`name`を送る。
+サービスの標準出力に書き出されるログで動作確認するためログを表示しておく。
 
 ```sh
-make demo1
+docker compose logs -f --since 0s supplier-service1 supplier-service2 consumer-service1 consumer-service2
+```
+
+サービスが起動したらロードバランサーを経由して`supplier-service`へHTTPで`content`を送る。
+
+```sh
+curl -s localhost:8080 -H "Content-Type: application/json" -d '{"content":"Hello World"}'
 ```
 
 #### 連続でリクエストを投げながら色々止めたりしながら遊ぼう
@@ -118,7 +121,10 @@ make demo1
 連続でリクエスト投げる。
 
 ```sh
-make demo2
+for i in {1..10000}; do \
+  curl -s localhost:8080 -H "Content-Type: application/json" -d '{"content":"My tweet '$(printf "%05d" "$i")'"}' && \
+  sleep 1; \
+done
 ```
 
 #### 後始末
@@ -126,11 +132,11 @@ make demo2
 Docker Composeを落とす。
 
 ```
-make down
+docker compose down
 ```
 
 コンテナイメージを破棄する。
 
 ```
-make destroy
+docker rmi supplier-service:0.0.1-SNAPSHOT consumer-service:0.0.1-SNAPSHOT
 ```

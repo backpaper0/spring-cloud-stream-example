@@ -17,7 +17,7 @@ public class ConsumerFunction {
 	@Bean
 	public Consumer<Tweet> tweet() {
 		return tweet -> {
-			logger.info("MQ -> consumer-service: {}", tweet);
+			System.out.println("MQ -> consumer-service: " + tweet);
 		};
 	}
 
