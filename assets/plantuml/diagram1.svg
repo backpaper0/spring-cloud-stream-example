@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="222px" preserveAspectRatio="none" style="width:568px;height:222px;background:#FFFFFF;" version="1.1" viewBox="0 0 568 222" width="568px" zoomAndPan="magnify"><defs><filter height="300%" id="f16vtyxo7tcder" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><!--MD5=[8fc3522a43f8c7199df5e09e5bb0188e]
+entity user--><ellipse cx="21.5" cy="14" fill="#FEFECE" filter="url(#f16vtyxo7tcder)" rx="8" ry="8" style="stroke:#A80036;stroke-width:1.5;"/><path d="M21.5,22 L21.5,49 M8.5,30 L34.5,30 M21.5,49 L8.5,64 M21.5,49 L34.5,64 " fill="none" filter="url(#f16vtyxo7tcder)" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="31" x="6" y="83.0352">User</text><!--MD5=[72f941736658486a9447ee9af01ffec8]
+entity ss--><rect fill="#FEFECE" filter="url(#f16vtyxo7tcder)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="151" x="146" y="22"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="277" y="27"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="275" y="29"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="275" y="33"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="111" x="161" y="55.5352">supplier-service</text><!--MD5=[d5096230de5c7e9b5a3d1997ba7f37f3]
+entity cs--><rect fill="#FEFECE" filter="url(#f16vtyxo7tcder)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="163" x="391" y="162.5"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="534" y="167.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="532" y="169.5"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="532" y="173.5"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="123" x="406" y="196.0352">consumer-service</text><!--MD5=[ef9dfea7f8fa7cbf0f2000ae0cdafadc]
+entity mq--><path d="M183,172.5 L260,172.5 C265,172.5 265,185.7441 265,185.7441 C265,185.7441 265,198.9883 260,198.9883 L183,198.9883 C178,198.9883 178,185.7441 178,185.7441 C178,185.7441 178,172.5 183,172.5 " fill="#FEFECE" filter="url(#f16vtyxo7tcder)" style="stroke:#A80036;stroke-width:1.5;"/><path d="M260,172.5 C255,172.5 255,185.7441 255,185.7441 C255,198.9883 260,198.9883 260,198.9883 " fill="none" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="67" x="183" y="191.0352">RabbitMQ</text><!--MD5=[cf5f75f96a788c13e64cc1d3e1d10ddc]
+link user to ss--><path d="M37.19,45 C59.49,45 101.92,45 140.45,45 " fill="none" id="user-to-ss" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="145.61,45,136.61,41,140.61,45,136.61,49,145.61,45" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="72" x="55.5" y="38.5684">HTTP、同期</text><!--MD5=[8319872f5cc6a11d378d21b2f4d2ca79]
+link ss to mq--><path d="M221.5,68.25 C221.5,95.81 221.5,142.16 221.5,167.2 " fill="none" id="ss-to-mq" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="221.5,172.21,225.5,163.21,221.5,167.21,217.5,163.21,221.5,172.21" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="89" x="222.5" y="129.0684">AMQP、非同期</text><!--MD5=[f1e4175751362476aa6ae1fac1a5a151]
+link mq to cs--><path d="M265.22,185.5 C298.29,185.5 344.77,185.5 385.34,185.5 " fill="none" id="mq-to-cs" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="390.77,185.5,381.77,181.5,385.77,185.5,381.77,189.5,390.77,185.5" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="89" x="283.5" y="179.0684">AMQP、非同期</text><!--MD5=[623b7268067d6aac49c2f992d2bbb924]
+@startuml diagram1
+
+actor User as user
+component "supplier-service" as ss
+component "consumer-service" as cs
+queue RabbitMQ as mq
+
+user -> ss : HTTP、同期
+ss - -> mq : AMQP、非同期
+mq -> cs : AMQP、非同期
+
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 21:40:07 JST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg>
