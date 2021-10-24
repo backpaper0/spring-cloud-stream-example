@@ -6,16 +6,17 @@
 
 - [Spring Cloud Stream](#spring-cloud-stream)
   - [Spring Cloud Streamとは](#spring-cloud-streamとは)
-  - [ハンズオン](#ハンズオン)
+  - [デモ](#デモ)
     - [必要なもの](#必要なもの)
     - [RabbitMQを起動する](#rabbitmqを起動する)
     - [メッセージ送信側アプリケーションを起動する](#メッセージ送信側アプリケーションを起動する)
     - [メッセージ受信側アプリケーションを起動する](#メッセージ受信側アプリケーションを起動する)
     - [メッセージを送信する](#メッセージを送信する)
     - [エラーハンドリング](#エラーハンドリング)
-  - [冗長化ハンズオン](#冗長化ハンズオン)
-    - [連続でリクエストを投げながら色々止めたりしながら遊ぼう](#連続でリクエストを投げながら色々止めたりしながら遊ぼう)
     - [後始末](#後始末)
+  - [冗長化デモ](#冗長化デモ)
+    - [連続でリクエストを投げながら色々止めたりしながら遊ぼう](#連続でリクエストを投げながら色々止めたりしながら遊ぼう)
+    - [後始末](#後始末-1)
 
 <!-- /code_chunk_output -->
 
@@ -32,11 +33,14 @@ Spring Cloud Streamが受け取ったメッセージを処理するのには[Spr
 Spring Cloud FunctionはWebやメッセージングといった外部との境界部分の詳細を切り離して関数を通してビジネスロジックに集中できることを目指しているフレームワーク。
 各クラウドベンダーのサーバーレスでも使えること(そしてスタンドアローンでも実行できること)を目指している。
 
-## ハンズオン
+## デモ
 
-ユーザーがsupplier-serviceへHTTPでテキストを送信する。
-supplier-serviceは受け取ったテキストをRabbitMQへエンキューする。
-consumer-serviceはRabbitMQからテキストを受け取って標準出力へ書き出す。
+Spring Cloud Streamで2つのサービスを繋ぐとてもシンプルなデモ。
+メッセージングにはRabbitMQを用いる。
+
+ユーザーが`supplier-service`へHTTPでテキストを送信する。
+`supplier-service`は受け取ったテキストをRabbitMQへエンキューする。
+`consumer-service`はRabbitMQからテキストを受け取って標準出力へ書き出す。
 
 ![](assets/plantuml/diagram1.svg)
 
@@ -52,7 +56,7 @@ DockerでRabbitMQを起動する。
 
 - https://hub.docker.com/_/rabbitmq
 
-管理画面を見たいので`-management`が付いているバージョンを使用する。
+管理画面が見られる`-management`が付いているバージョンを使用する。
 
 ```sh
 docker run -d --name mq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
@@ -98,7 +102,11 @@ curl localhost:8080 -H "Content-Type: application/json" -d '{"content":"Hello Wo
 
 Exchangeへ送信されたメッセージはバインドされているキューへ送信される。
 
-TODO ExchangeとQueueを説明する
+なお、ここで書いているようにメッセージは直接キューに入るわけではなく、まずExchangeに渡される。
+Exchangeは設定に応じて適したキューへメッセージをルーティングする。
+アプリケーションはキューをサブスクライブしており、ルーティングされたメッセージを受け取る。
+
+- 参考：https://www.rabbitmq.com/tutorials/amqp-concepts.html#amqp-model
 
 キューはデフォルトだと`consumer-service`のインスタンス毎に1つ用意されるが、グループが設定されている場合はグループ毎に1つ用意される。
 グループは`spring.cloud.stream.bindings.<bindingName>.group`の値で設定される。
@@ -115,10 +123,20 @@ DLQ(Dead Letter Queue)という仕組みを使ってエラーが発生したメ�
 curl localhost:8080 -H "Content-Type: text/plain" -d 'Invalid message'
 ```
 
-するとconsumer-service側で例外がスローされてメッセージは`tweet.myGroup.dlq`というキューにエンキューされる。
+すると`consumer-service`側で例外がスローされてメッセージは`tweet.myGroup.dlq`というキューにエンキューされる。
 RabbitMQの管理画面で該当のキューを選択してGet Messageをしてみるとそれが確認できる。
 
-## 冗長化ハンズオン
+### 後始末
+
+`supplier-service`と`consumer-service`を停止させる。
+
+それからRabbitMQを破棄する。
+
+```sh
+docker rm -f mq
+```
+
+## 冗長化デモ
 
 RabbitMQクラスタを構築してSpring Cloud Streamを試してみる。
 
