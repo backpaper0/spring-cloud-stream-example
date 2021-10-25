@@ -75,7 +75,7 @@ docker run -d --name mq -p 5672:5672 -p 15672:15672 rabbitmq:3-management
 HTTPで受け取ったテキストで`Tweet`を構築してキューへ送信するアプリケーション。
 
 ```sh
-cd supplier-service
+cd services/supplier-service
 ./mvnw spring-boot:run
 ```
 
@@ -84,7 +84,7 @@ cd supplier-service
 キューから受信した`Tweet`を標準出力へ書き出すアプリケーション。
 
 ```sh
-cd consumer-service
+cd services/consumer-service
 ./mvnw spring-boot:run
 ```
 
@@ -128,7 +128,7 @@ RabbitMQの管理画面で該当のキューを選択してGet Messageをして�
 
 ### 後始末
 
-`supplier-service`と`consumer-service`を停止させる。
+`supplier-service`と`consumer-service`を停止する。
 
 それからRabbitMQを破棄する。
 
@@ -145,7 +145,7 @@ RabbitMQクラスタを構築してSpring Cloud Streamを試してみる。
 まずアプリケーションのコンテナイメージをビルドする。
 
 ```sh
-for pj in supplier-service consumer-service; do cd $pj && ./mvnw -Ptracing,actuator -DskipTests spring-boot:build-image && cd ..; done
+for pj in $(ls services); do cd services/$pj && ./mvnw -Ptracing,actuator -DskipTests spring-boot:build-image && cd ../..; done
 ```
 
 次にDocker ComposeでRabbitMQ、アプリケーション、ロードバランサー(Nginx)を起動する。
