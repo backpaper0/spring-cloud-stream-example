@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="328px" preserveAspectRatio="none" style="width:464px;height:328px;background:#FFFFFF;" version="1.1" viewBox="0 0 464 328" width="464px" zoomAndPan="magnify"><defs><filter height="300%" id="fuwzpzv5k3z8e" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacing" textLength="393" x="29" y="17.4023">グループ(consumer-service単位で1つのキュー)</text><!--MD5=[6449911807b1c795dbd64e18869d38e3]
+cluster Consumer group--><polygon fill="#FFFFFF" filter="url(#fuwzpzv5k3z8e)" points="16,224.1992,142,224.1992,149,246.6875,447,246.6875,447,321.1992,16,321.1992,16,224.1992" style="stroke:#000000;stroke-width:1.5;"/><line style="stroke:#000000;stroke-width:1.5;" x1="16" x2="149" y1="246.6875" y2="246.6875"/><text fill="#000000" font-family="sans-serif" font-size="14" font-weight="bold" lengthAdjust="spacing" textLength="120" x="20" y="239.7344">Consumer group</text><!--MD5=[34b17b1ae261c273bf6c9d83d06925a6]
+entity cs1--><rect fill="#FEFECE" filter="url(#fuwzpzv5k3z8e)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="182" x="32" y="259.1992"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="194" y="264.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="192" y="266.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="192" y="270.1992"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="47" y="292.7344">consumer-service(1)</text><!--MD5=[778d59aea12c8947f7008d0d0576d5db]
+entity cs2--><rect fill="#FEFECE" filter="url(#fuwzpzv5k3z8e)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="182" x="249" y="259.1992"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="411" y="264.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="409" y="266.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="409" y="270.1992"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="264" y="292.7344">consumer-service(2)</text><!--MD5=[fa6ce7e21b0b6d038045bfed9d702401]
+entity ex--><rect fill="#FEFECE" filter="url(#fuwzpzv5k3z8e)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="107" x="177.5" y="28.1992"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="264.5" y="33.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="262.5" y="35.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="262.5" y="39.1992"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="67" x="192.5" y="61.7344">Exchange</text><!--MD5=[1e0e2dbac2f3cca3269c18ad1edf5798]
+entity q1--><path d="M203.5,135.1992 L258.5,135.1992 C263.5,135.1992 263.5,148.4434 263.5,148.4434 C263.5,148.4434 263.5,161.6875 258.5,161.6875 L203.5,161.6875 C198.5,161.6875 198.5,148.4434 198.5,148.4434 C198.5,148.4434 198.5,135.1992 203.5,135.1992 " fill="#FEFECE" filter="url(#fuwzpzv5k3z8e)" style="stroke:#A80036;stroke-width:1.5;"/><path d="M258.5,135.1992 C253.5,135.1992 253.5,148.4434 253.5,148.4434 C253.5,161.6875 258.5,161.6875 258.5,161.6875 " fill="none" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="45" x="203.5" y="153.7344">Queue</text><!--MD5=[1d8b028f33dae7a552bccf92145b4ff5]
+link ex to q1--><path d="M231,74.2292 C231,91.1192 231,114.1092 231,129.7392 " fill="none" id="ex-to-q1" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="231,135.1392,235,126.1392,231,130.1392,227,126.1392,231,135.1392" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[cf70c09631514fc50b06380d9431824c]
+link q1 to cs1--><path d="M198.47,156.1992 C178.6,162.1692 154.34,172.8192 140,191.1992 C126.23,208.8492 122.46,234.2992 121.86,253.6392 " fill="none" id="q1-to-cs1" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="121.77,258.9192,125.9237,249.9891,121.8557,253.92,117.9249,249.852,121.77,258.9192" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="148" x="141" y="204.7676">Message1, Message3 ...</text><!--MD5=[5dffd287dd8b030be93650a50f5a5f6b]
+link q1 to cs2--><path d="M255.02,161.2992 C267.79,168.6292 283.07,178.9292 294,191.1992 C310.46,209.6792 322.75,235.1192 330.46,254.2392 " fill="none" id="q1-to-cs2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="332.32,258.9492,332.754,249.1099,330.4926,254.2951,325.3074,252.0337,332.32,258.9492" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="148" x="307" y="204.7676">Message2, Message4 ...</text><!--MD5=[762165aea30a96562171ed91a97e2f99]
+@startuml group
+title グループ(consumer-service単位で1つのキュー)
+
+component Exchange as ex
+queue Queue as q1
+package "Consumer group" {
+    component "consumer-service(1)" as cs1
+    component "consumer-service(2)" as cs2
+}
+
+ex - -> q1
+q1 - -> cs1 : Message1, Message3 ...
+q1 - -> cs2 : Message2, Message4 ...
+
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 21:40:07 JST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg>

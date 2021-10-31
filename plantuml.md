@@ -44,3 +44,39 @@ mq2 --> cs2
 
 @enduml
 ```
+
+```plantuml
+@startuml default
+title デフォルト(consumer-serviceのインスタンス毎にキュー)
+
+component Exchange as ex
+queue "Queue(1)" as q1
+queue "Queue(2)" as q2
+component "consumer-service(1)" as cs1
+component "consumer-service(2)" as cs2
+
+ex --> q1
+ex --> q2
+q1 --> cs1 : Message1, Message2 ...
+q2 --> cs2 : Message1, Message2 ...
+
+@enduml
+```
+
+```plantuml
+@startuml group
+title グループ(consumer-service単位で1つのキュー)
+
+component Exchange as ex
+queue Queue as q1
+package "Consumer group" {
+    component "consumer-service(1)" as cs1
+    component "consumer-service(2)" as cs2
+}
+
+ex --> q1
+q1 --> cs1 : Message1, Message3 ...
+q1 --> cs2 : Message2, Message4 ...
+
+@enduml
+```

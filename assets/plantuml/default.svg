@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentScriptType="application/ecmascript" contentStyleType="text/css" height="298px" preserveAspectRatio="none" style="width:481px;height:298px;background:#FFFFFF;" version="1.1" viewBox="0 0 481 298" width="481px" zoomAndPan="magnify"><defs><filter height="300%" id="f1b9jml81zrcqj" width="300%" x="-1" y="-1"><feGaussianBlur result="blurOut" stdDeviation="2.0"/><feColorMatrix in="blurOut" result="blurOut2" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 .4 0"/><feOffset dx="4.0" dy="4.0" in="blurOut2" result="blurOut3"/><feBlend in="SourceGraphic" in2="blurOut3" mode="normal"/></filter></defs><g><text fill="#000000" font-family="sans-serif" font-size="18" lengthAdjust="spacing" textLength="472" x="2" y="17.4023">デフォルト(consumer-serviceのインスタンス毎にキュー)</text><!--MD5=[fa6ce7e21b0b6d038045bfed9d702401]
+entity ex--><rect fill="#FEFECE" filter="url(#f1b9jml81zrcqj)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="107" x="167" y="28.1992"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="254" y="33.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="252" y="35.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="252" y="39.1992"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="67" x="182" y="61.7344">Exchange</text><!--MD5=[1e0e2dbac2f3cca3269c18ad1edf5798]
+entity q1--><path d="M124.5,135.1992 L198.5,135.1992 C203.5,135.1992 203.5,148.4434 203.5,148.4434 C203.5,148.4434 203.5,161.6875 198.5,161.6875 L124.5,161.6875 C119.5,161.6875 119.5,148.4434 119.5,148.4434 C119.5,148.4434 119.5,135.1992 124.5,135.1992 " fill="#FEFECE" filter="url(#f1b9jml81zrcqj)" style="stroke:#A80036;stroke-width:1.5;"/><path d="M198.5,135.1992 C193.5,135.1992 193.5,148.4434 193.5,148.4434 C193.5,161.6875 198.5,161.6875 198.5,161.6875 " fill="none" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="64" x="124.5" y="153.7344">Queue(1)</text><!--MD5=[5aa9fe14e2b4221da937042b0842c101]
+entity q2--><path d="M267.5,135.1992 L341.5,135.1992 C346.5,135.1992 346.5,148.4434 346.5,148.4434 C346.5,148.4434 346.5,161.6875 341.5,161.6875 L267.5,161.6875 C262.5,161.6875 262.5,148.4434 262.5,148.4434 C262.5,148.4434 262.5,135.1992 267.5,135.1992 " fill="#FEFECE" filter="url(#f1b9jml81zrcqj)" style="stroke:#A80036;stroke-width:1.5;"/><path d="M341.5,135.1992 C336.5,135.1992 336.5,148.4434 336.5,148.4434 C336.5,161.6875 341.5,161.6875 341.5,161.6875 " fill="none" style="stroke:#A80036;stroke-width:1.5;"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="64" x="267.5" y="153.7344">Queue(2)</text><!--MD5=[34b17b1ae261c273bf6c9d83d06925a6]
+entity cs1--><rect fill="#FEFECE" filter="url(#f1b9jml81zrcqj)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="182" x="21.5" y="238.1992"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="183.5" y="243.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="181.5" y="245.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="181.5" y="249.1992"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="36.5" y="271.7344">consumer-service(1)</text><!--MD5=[778d59aea12c8947f7008d0d0576d5db]
+entity cs2--><rect fill="#FEFECE" filter="url(#f1b9jml81zrcqj)" height="46.4883" style="stroke:#A80036;stroke-width:1.5;" width="182" x="238.5" y="238.1992"/><rect fill="#FEFECE" height="10" style="stroke:#A80036;stroke-width:1.5;" width="15" x="400.5" y="243.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="398.5" y="245.1992"/><rect fill="#FEFECE" height="2" style="stroke:#A80036;stroke-width:1.5;" width="4" x="398.5" y="249.1992"/><text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="253.5" y="271.7344">consumer-service(2)</text><!--MD5=[1d8b028f33dae7a552bccf92145b4ff5]
+link ex to q1--><path d="M206.82,74.2292 C196.14,91.4192 181.55,114.9192 171.83,130.5592 " fill="none" id="ex-to-q1" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="168.99,135.1392,177.1436,129.6149,171.6336,130.8952,170.3532,125.3852,168.99,135.1392" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[ac886903b5e8631d55e80480ef5f991f]
+link ex to q2--><path d="M239.98,74.2292 C255.44,91.7192 276.68,115.7392 290.5,131.3592 " fill="none" id="ex-to-q2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="293.84,135.1392,290.8682,125.7494,290.5253,131.3959,284.8788,131.053,293.84,135.1392" style="stroke:#A80036;stroke-width:1.0;"/><!--MD5=[cf70c09631514fc50b06380d9431824c]
+link q1 to cs1--><path d="M156.07,161.4992 C148.49,178.6792 134.52,210.3092 124.44,233.1392 " fill="none" id="q1-to-cs1" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="122.36,237.8692,129.659,231.2568,124.3828,233.2966,122.3429,228.0204,122.36,237.8692" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="148" x="143.5" y="204.7676">Message1, Message2 ...</text><!--MD5=[3592396ba3d0f36a233fba597421a2b3]
+link q2 to cs2--><path d="M307.27,161.4992 C311.12,178.6092 318.2,210.0492 323.34,232.8592 " fill="none" id="q2-to-cs2" style="stroke:#A80036;stroke-width:1.0;"/><polygon fill="#A80036" points="324.47,237.8692,326.3894,228.2092,323.3687,232.992,318.5859,229.9713,324.47,237.8692" style="stroke:#A80036;stroke-width:1.0;"/><text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="148" x="318.5" y="204.7676">Message1, Message2 ...</text><!--MD5=[28744b64664c2ddf1a6c80850fe1f480]
+@startuml default
+title デフォルト(consumer-serviceのインスタンス毎にキュー)
+
+component Exchange as ex
+queue "Queue(1)" as q1
+queue "Queue(2)" as q2
+component "consumer-service(1)" as cs1
+component "consumer-service(2)" as cs2
+
+ex - -> q1
+ex - -> q2
+q1 - -> cs1 : Message1, Message2 ...
+q2 - -> cs2 : Message1, Message2 ...
+
+@enduml
+
+PlantUML version 1.2021.7(Sun May 23 21:40:07 JST 2021)
+(GPL source distribution)
+Java Runtime: OpenJDK Runtime Environment
+JVM: OpenJDK 64-Bit Server VM
+Default Encoding: UTF-8
+Language: ja
+Country: JP
+--></g></svg>
