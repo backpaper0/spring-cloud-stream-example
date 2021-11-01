@@ -14,6 +14,11 @@ public class ConsumerFunction {
 
 	private static Logger logger = LoggerFactory.getLogger(ConsumerFunction.class);
 
+	/**
+	 * RabbitMQから受信した内容を標準出力へ書き出す関数を定義しています。
+	 * 
+	 * @return
+	 */
 	@Bean
 	public Consumer<Tweet> tweet() {
 		return tweet -> {

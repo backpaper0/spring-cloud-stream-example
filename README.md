@@ -100,7 +100,7 @@ cd services/consumer-service
 curl localhost:8080 -H "Content-Type: application/json" -d '{"content":"Hello World"}'
 ```
 
-そうすると、`SupplierController#handleTweet`がHTTPリクエストを受け取って`tweet`という名前のExchangeへメッセージを送信します。
+そうすると、[SupplierController](services/supplier-service/src/main/java/com/example/SupplierController.java)がHTTPリクエストを受け取って`tweet`という名前のExchangeへメッセージを送信します。
 
 ここで送信先となるExchangeは`StreamBridge#send`の第1引数によって指定されています。
 
@@ -120,7 +120,7 @@ Exchangeは設定に応じて適したキューへメッセージをルーティ
 
 グループは`spring.cloud.stream.bindings.<bindingName>.group`の値で設定できます。
 
-`consumer-service`はキューからメッセージを受信し、`ConsumerFunction`で定義された`tweet`関数へメッセージが渡され、標準出力に書き出されます。
+`consumer-service`はキューからメッセージを受信し、[ConsumerFunction](services/consumer-service/src/main/java/com/example/ConsumerFunction.java)で定義された`tweet`関数へメッセージが渡され、標準出力に書き出されます。
 
 ### エラーハンドリング
 
@@ -156,7 +156,7 @@ RabbitMQクラスタを構築してSpring Cloud Streamを試してみましょ�
 
 ```sh
 for pj in $(ls services); do cd services/$pj && \
-./mvnw -Ptracing,actuator -DskipTests spring-boot:build-image && \
+./mvnw -Ptracing -DskipTests spring-boot:build-image && \
 cd ../..; \
 done
 ```
