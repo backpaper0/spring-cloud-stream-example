@@ -12,7 +12,7 @@ x-app-base: &app-base
     SPRING_RABBITMQ_ADDRESSES: "mq1:5672,mq2:5672,mq3:5672,mq4:5672"
     SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
-  depends_on: [mq1, mq2, mq3, mq4]
+  depends_on: [mq1, mq2, mq3]
 
 services:
 
@@ -28,10 +28,6 @@ services:
   mq3:
     <<: *mq
     hostname: usaq3
-
-  mq4:
-    <<: *mq
-    hostname: usaq4
 
   consumer-service1: &consumer-service
     image: consumer-service:0.0.1-SNAPSHOT
