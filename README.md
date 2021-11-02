@@ -161,11 +161,19 @@ cd ../..; \
 done
 ```
 
-次にDocker ComposeでRabbitMQ、アプリケーション(`supplier-service`と`consumer-service`をそれぞれ2つずつ)、ロードバランサー(Nginx)を起動します。
+次にDocker ComposeでRabbitMQを起動します。
 
 ```sh
-docker compose up -d
+docker compose --profile mq up -d
 ```
+
+それからアプリケーション(`supplier-service`と`consumer-service`をそれぞれ2つずつ)、ロードバランサー(Nginx)を起動します。
+
+```sh
+docker compose --profile app up -d
+```
+
+※Spring Cloud Streamはアプリケーション起動時に必要とするキューが無ければ作成してくれるのですが、先にRabbitMQクラスターが起動していないとキューが正しく作られないため、MQとそれ以外を分けて起動しています
 
 サービスの起動には少し時間がかかります。
 
@@ -201,7 +209,7 @@ done
 Docker Composeを落とします。
 
 ```
-docker compose down -v
+docker compose --profile app --profile mq down -v
 ```
 
 コンテナイメージを破棄します。
