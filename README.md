@@ -22,6 +22,8 @@
 
 ## Spring Cloud Streamとは
 
+- https://spring.io/projects/spring-cloud-stream
+
 公式ウェブサイトには次のように書かれています。
 
 > Spring Cloud Stream is a framework for building highly scalable event-driven microservices connected with shared messaging systems.
