@@ -14,6 +14,7 @@ x-app-base: &app-base
     SPRING_RABBITMQ_ADDRESSES: "mq1:5672,mq2:5672,mq3:5672"
     SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
+    LOGGING_LEVEL_COM_RABBITMQ_CLIENT_IMPL_RECOVERY_AUTORECOVERINGCONNECTION: DEBUG
   depends_on: [mq1, mq2, mq3]
   profiles:
     - app
@@ -35,7 +36,7 @@ services:
 
   consumer-service1: &consumer-service
     image: consumer-service:0.0.1-SNAPSHOT
-    command: --spring.cloud.stream.rabbit.bindings.tweet-in-0.consumer.quorum.enabled=true --spring.cloud.stream.rabbit.bindings.tweet-in-0.consumer.quorum.initial-group-size=3
+    command: --spring.cloud.stream.rabbit.bindings.tweet-in-0.consumer.quorum.enabled=true
     <<: *app-base
 
   consumer-service2:
