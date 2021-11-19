@@ -52,7 +52,7 @@ Spring Cloud Streamで2つのサービスを繋ぐとてもシンプルなデモ
 
 ### 必要なもの
 
-- Java 11
+- Java 17
 - Docker
 - curl
 
