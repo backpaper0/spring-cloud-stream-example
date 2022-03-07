@@ -60,7 +60,7 @@ Spring Cloud Streamで2つのサービスを繋ぐとてもシンプルなデモ
 
 まずDockerでRabbitMQを起動します。
 
-- https://hub.docker.com/_/rabbitmq
+- [https://hub.docker.com/\_/rabbitmq](https://hub.docker.com/_/rabbitmq)
 
 今回は管理画面が見られる`-management`が付いているバージョンを使用します。
 
@@ -157,10 +157,7 @@ RabbitMQクラスタを構築してSpring Cloud Streamを試してみましょ�
 まずアプリケーションのコンテナイメージをビルドします。
 
 ```sh
-for pj in $(ls services); do cd services/$pj && \
-./mvnw -Ptracing -DskipTests spring-boot:build-image && \
-cd ../..; \
-done
+ls services|xargs -t -I{} mvn -f services/{} -Ptracing -DskipTests spring-boot:build-image
 ```
 
 次にDocker ComposeでRabbitMQを起動します。
@@ -195,13 +192,10 @@ curl -s localhost:8080 -H "Content-Type: application/json" -d '{"content":"Hello
 
 ### 連続でリクエストを投げながら色々止めたりしながら遊ぼう
 
-次のコマンドで連続でリクエスト投げっぱなしにします。
+[k6](https://k6.io/docs/)を使って連続でリクエストを投げっぱなしにします。
 
 ```sh
-for i in {1..10000}; do \
-  curl -s localhost:8080 -H "Content-Type: application/json" -d '{"content":"My tweet '$(printf "%05d" "$i")'"}' && \
-  sleep 1; \
-done
+k6 run -d 1h --min-iteration-duration 1s script.js
 ```
 
 それからアプリケーションやRabbitMQを止めたり起動したりしてみましょう(`docker compose stop/docker compose start`)。
