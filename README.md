@@ -213,3 +213,24 @@ docker compose --profile app --profile mq down -v
 ```
 docker rmi supplier-service:0.0.1-SNAPSHOT consumer-service:0.0.1-SNAPSHOT
 ```
+
+---
+
+## Kafka
+
+```bash
+export COMPOSE_FILE=docker-compose-kafka.yml
+```
+
+```bash
+docker compose up -d
+```
+
+```bash
+mvn -Pkafka -f services/consumer-service spring-boot:run
+```
+
+```bash
+mvn -Pkafka -f services/supplier-service spring-boot:run
+```
+
