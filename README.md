@@ -135,8 +135,12 @@ DLQ(Dead Letter Queue)という仕組みを使ってエラーが発生したメ�
 curl localhost:8080 -H "Content-Type: text/plain" -d 'Invalid message'
 ```
 
-すると`consumer-service`側で例外がスローされてメッセージは`tweet.myGroup.dlq`というキューにエンキューされます。
-今回はアプリケーション側でDLQをサブスクライブしていないためRabbitMQの管理画面で該当のキューからGet Messageをして確認します。
+すると`consumer-service`側で例外がスローされたメッセージは`tweet.myGroup.dlq`というキューにエンキューされます。
+今回はアプリケーション側でDLQをサブスクライブしていないため次のコマンドもしくはRabbitMQの管理画面で該当のキューからGet Messageをして確認します。
+
+```sh
+docker exec mq rabbitmqadmin get queue=tweet.myGroup.dlq
+```
 
 ### 後始末
 
@@ -200,6 +204,11 @@ k6 run -d 1h --min-iteration-duration 1s script.js
 
 それからアプリケーションやRabbitMQを止めたり起動したりしてみましょう(`docker compose stop/docker compose start`)。
 
+### Observability
+
+- [Zipkin](http://localhost:9411/)
+- [Prometheus](http://localhost:9090/)
+
 ### 後始末
 
 Docker Composeを落とします。
@@ -213,24 +222,3 @@ docker compose --profile app --profile mq down -v
 ```
 docker rmi supplier-service:0.0.1-SNAPSHOT consumer-service:0.0.1-SNAPSHOT
 ```
-
----
-
-## Kafka
-
-```bash
-export COMPOSE_FILE=docker-compose-kafka.yml
-```
-
-```bash
-docker compose up -d
-```
-
-```bash
-mvn -Pkafka -f services/consumer-service spring-boot:run
-```
-
-```bash
-mvn -Pkafka -f services/supplier-service spring-boot:run
-```
-
