@@ -173,7 +173,7 @@ docker compose --profile mq up -d
 それからアプリケーション(`supplier-service`と`consumer-service`をそれぞれ2つずつ)、ロードバランサー(Nginx)を起動します。
 
 ```sh
-docker compose --profile app up -d
+docker compose --profile app --profile mq up -d
 ```
 
 ※Spring Cloud Streamはアプリケーション起動時に必要とするキューが無ければ作成してくれるのですが、先にRabbitMQクラスターが起動していないとキューが正しく作られないため、MQとそれ以外を分けて起動しています
@@ -183,7 +183,7 @@ docker compose --profile app up -d
 サービスの標準出力に書き出されるログで動作確認するためログを表示しておきます。
 
 ```sh
-docker compose logs -f --since 0s \
+docker compose --profile app --profile mq logs -f --since 0s \
   supplier-service1 supplier-service2 \
   consumer-service1 consumer-service2
 ```
