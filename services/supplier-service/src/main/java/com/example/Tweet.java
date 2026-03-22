@@ -1,23 +1,22 @@
 package com.example;
 
-import java.util.Objects;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.Objects;
 
 public final class Tweet {
 
-	private final String content;
+    private final String content;
 
-	public Tweet(@JsonProperty("content") String content) {
-		this.content = Objects.requireNonNull(content);
-	}
+    public Tweet(@JsonProperty("content") String content) {
+        this.content = Objects.requireNonNull(content);
+    }
 
-	public String getContent() {
-		return content;
-	}
+    public String getContent() {
+        return content;
+    }
 
-	@Override
-	public String toString() {
-		return content;
-	}
+    @Override
+    public String toString() {
+        return content;
+    }
 }

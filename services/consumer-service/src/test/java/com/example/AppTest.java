@@ -8,25 +8,24 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.system.CapturedOutput;
 import org.springframework.boot.test.system.OutputCaptureExtension;
+import org.springframework.cloud.stream.binder.test.EnableTestBinder;
 import org.springframework.cloud.stream.binder.test.InputDestination;
-import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
-import org.springframework.context.annotation.Import;
-import org.springframework.messaging.Message;
-import org.springframework.messaging.support.GenericMessage;
+import org.springframework.messaging.support.MessageBuilder;
 
 @SpringBootTest
-@Import(TestChannelBinderConfiguration.class)
+@EnableTestBinder
 @ExtendWith(OutputCaptureExtension.class)
 public class AppTest {
 
-	@Autowired
-	private InputDestination input;
+    @Autowired
+    private InputDestination input;
 
-	@Test
-	public void testHandle(CapturedOutput output) {
-		final Message<String> message = new GenericMessage<>("{\"name\":\"hoge\"}");
-		input.send(message);
+    @Test
+    void testHandle(CapturedOutput output) {
+        var payload = "{\"name\":\"hoge\"}";
+        var message = MessageBuilder.withPayload(payload).build();
+        input.send(message);
 
-		assertThat(output.getOut()).contains("MQ -> Sink: hoge");
-	}
+        assertThat(output.getOut()).contains("MQ -> consumer-service: " + payload);
+    }
 }
