@@ -1,0 +1,3 @@
+[tools]
+java = "liberica-21"
+k6 = "latest"

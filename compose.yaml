@@ -10,7 +10,10 @@ x-mq: &mq
 x-app-base: &app-base
   environment:
     SPRING_RABBITMQ_ADDRESSES: "mq1:5672,mq2:5672,mq3:5672"
-    SPRING_ZIPKIN_BASEURL: http://zipkin:9411/
+    OTEL_EXPORTER_OTLP_ENDPOINT: http://grafana-lgtm:4318
+    MANAGEMENT_OTLP_METRICS_EXPORT_URL: http://grafana-lgtm:4318/v1/metrics
+    MANAGEMENT_OPENTELEMETRY_TRACING_EXPORT_OTLP_ENDPOINT: http://grafana-lgtm:4318/v1/traces
+    MANAGEMENT_OPENTELEMETRY_LOGGING_EXPORT_OTLP_ENDPOINT: http://grafana-lgtm:4318/v1/logs
     MANAGEMENT_ENDPOINTS_WEB_EXPOSURE_INCLUDE: "*"
     MANAGEMENT_TRACING_SAMPLING_PROBABILITY: "1.0"
     LOGGING_LEVEL_COM_RABBITMQ_CLIENT_IMPL_RECOVERY_AUTORECOVERINGCONNECTION: DEBUG
@@ -57,18 +60,8 @@ services:
     profiles:
       - app
 
-  zipkin:
-    image: openzipkin/zipkin
-    ports: ["9411:9411"]
+  grafana-lgtm:
+    image: grafana/otel-lgtm
+    ports: ["3000:3000", "4317:4317", "4318:4318"]
     profiles:
       - app
-
-  prometheus:
-    image: prom/prometheus
-    ports: ["9090:9090"]
-    volumes:
-      - ./docker/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
-    depends_on: [supplier-service1, supplier-service2, consumer-service1, consumer-service2]
-    profiles:
-      - app
-
