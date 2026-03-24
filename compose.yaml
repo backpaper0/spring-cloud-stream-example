@@ -10,7 +10,6 @@ x-mq: &mq
 x-app-base: &app-base
   environment:
     SPRING_RABBITMQ_ADDRESSES: "mq1:5672,mq2:5672,mq3:5672"
-    OTEL_EXPORTER_OTLP_ENDPOINT: http://grafana-lgtm:4318
     MANAGEMENT_OTLP_METRICS_EXPORT_URL: http://grafana-lgtm:4318/v1/metrics
     MANAGEMENT_OPENTELEMETRY_TRACING_EXPORT_OTLP_ENDPOINT: http://grafana-lgtm:4318/v1/traces
     MANAGEMENT_OPENTELEMETRY_LOGGING_EXPORT_OTLP_ENDPOINT: http://grafana-lgtm:4318/v1/logs
