@@ -25,3 +25,8 @@ run = "docker compose --profile app --profile mq logs -f --since 0s supplier-ser
 
 [tasks.requests]
 run = "k6 run -d 1h --min-iteration-duration 1s script.js"
+
+[tasks.rmi]
+run = [
+    "docker rmi supplier-service:0.0.1-SNAPSHOT consumer-service:0.0.1-SNAPSHOT",
+]
